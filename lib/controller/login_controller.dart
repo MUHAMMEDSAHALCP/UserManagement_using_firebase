@@ -16,7 +16,7 @@ class LogInController extends ChangeNotifier {
     final  user = await auth.signInWithEmailAndPassword(
           email: emailController.text, password: passWordController.text);
 
-      user != null ? Navigator.pushNamed(context, HomePage.id) : " ";
+      user != null ? Navigator.pushNamed(context, HomePage.id) : "";
     } catch (e) {
       log(" Error: $e");
     }
