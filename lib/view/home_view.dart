@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:user_management/components/material_button.dart';
-import 'package:user_management/components/text_form_field.dart';
+import 'package:user_management/controller/signup_controller.dart';
 import 'package:user_management/utlities/constant.dart';
 
 class HomePage extends StatelessWidget {
@@ -10,9 +10,9 @@ class HomePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    
+    context.read<SignUpController>().getAllUserDetails();
+    Size size = MediaQuery.of(context).size;
     return Scaffold(
-      backgroundColor: blackColor,
       appBar: AppBar(
         elevation: 0,
         title: const Text("  USER DETAILS"),
@@ -20,31 +20,55 @@ class HomePage extends StatelessWidget {
         backgroundColor: blackColor,
         centerTitle: true,
       ),
-      body: SafeArea(
-        child: Padding(
-          padding: const EdgeInsets.all(10.0),
-          child: ListView(
-            children: [
-              const Center(
-                child: CircleAvatar(
-                  radius: 60,
+      body: ListView(
+        children: [
+          sizedBox20,
+          const Center(
+            child: CircleAvatar(
+              radius: 80,
+            ),
+          ),
+          sizedBox20,
+          Padding(
+            padding: const EdgeInsets.all(10.0),
+            child: Container(
+              decoration: boxDecoration.copyWith(color: blackColor),
+              height: size.height / 2,
+              width: double.infinity,
+              child: Padding(
+                padding: const EdgeInsets.all(10.0),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    const Text(
+                      "Name    :",
+                      style: textStyle,
+                    ),
+                    sizedBox20,
+                    const Text(
+                      "Email    :",
+                      style: textStyle,
+                    ),
+                    sizedBox20,
+                    const Text(
+                      "Age       :",
+                      style: textStyle,
+                    ),
+                    sizedBox20,
+                    const Text(
+                      "Phone   :",
+                      style: textStyle,
+                    ),
+                    SizedBox(
+                      height: size.height / 5,
+                    ),
+                    MaterialButtonWidget(onClick: () {}, text: "Edit Profile")
+                  ],
                 ),
               ),
-              sizedBox20,
-              const TextFormFieldWidget(text: ""),
-              sizedBox10,
-              const TextFormFieldWidget(text: ""),
-              sizedBox10,
-              const TextFormFieldWidget(text: ""),
-              sizedBox20,
-              const TextFormFieldWidget(text: ""),
-              sizedBox20,
-              const TextFormFieldWidget(text: ""),
-              sizedBox20,
-              MaterialButtonWidget(onClick: () {}, text: "save")
-            ],
+            ),
           ),
-        ),
+        ],
       ),
     );
   }
