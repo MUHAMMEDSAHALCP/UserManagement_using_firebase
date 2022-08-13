@@ -11,6 +11,17 @@ class UserModel {
     this.id,
   });
 
+//getting data from firestore
+  factory UserModel.fromJson(Map<String, dynamic> json) {
+    return UserModel(
+      name: json["name"],
+      email: json["email"],
+      phone: json["phone"],
+      id: json["id"],
+    );
+  }
+
+//adding data to firestore
   Map<String, dynamic> toJson() {
     return {
       "name": name,
