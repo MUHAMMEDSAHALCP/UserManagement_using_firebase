@@ -17,7 +17,7 @@ class SignUpController extends ChangeNotifier {
 
   registerUser(context) async {
     try {
-      newUser = await _auth
+      newUser =  await _auth
           .createUserWithEmailAndPassword(
               email: emailController.text, password: passwordController.text)
           .then((value) => registerAllUserDetails(context));
