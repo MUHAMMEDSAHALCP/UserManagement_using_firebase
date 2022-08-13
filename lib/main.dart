@@ -3,10 +3,10 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:user_management/controller/home_controller.dart';
 import 'package:user_management/controller/login_controller.dart';
-import 'package:user_management/controller/registration_controller.dart';
+import 'package:user_management/controller/signup_controller.dart';
 import 'package:user_management/view/home_view.dart';
 import 'package:user_management/view/login_view.dart';
-import 'package:user_management/view/register_view.dart';
+import 'package:user_management/view/signup_view.dart';
 import 'package:user_management/view/welcome_view.dart';
 
 void main(List<String> args) async {
@@ -23,7 +23,7 @@ class MyApp extends StatelessWidget {
     return MultiProvider(
       providers: [
         ChangeNotifierProvider(
-          create: (context) => RegisterController(),
+          create: (context) => SignUpController(),
         ),
         ChangeNotifierProvider(
           create: (context) => HomePageController(),
@@ -38,7 +38,7 @@ class MyApp extends StatelessWidget {
         routes: {
           WelComePage.id: (context) => const WelComePage(),
           LoginPage.id: (context) => const LoginPage(),
-          RegisterPage.id: (context) => const RegisterPage(),
+          SignUpPage.id: (context) => const SignUpPage(),
           HomePage.id: (context) => const HomePage(),
         },
       ),

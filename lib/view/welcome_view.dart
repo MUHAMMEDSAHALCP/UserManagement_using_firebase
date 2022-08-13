@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:user_management/components/material_button.dart';
 import 'package:user_management/utlities/constant.dart';
 import 'package:user_management/view/login_view.dart';
-import 'package:user_management/view/register_view.dart';
+import 'package:user_management/view/signup_view.dart';
 
 class WelComePage extends StatelessWidget {
   static String id = "Welcome_page";
@@ -34,7 +34,7 @@ class WelComePage extends StatelessWidget {
               onClick: () {
                 Navigator.pushNamed(
                   context,
-                  RegisterPage.id,
+                  SignUpPage.id,
                 );
               },
               text: "Register",

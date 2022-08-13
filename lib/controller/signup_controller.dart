@@ -1,12 +1,11 @@
 import 'dart:developer';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:user_management/model/user_model.dart';
 import 'package:user_management/view/home_view.dart';
 
-class RegisterController extends ChangeNotifier {
+class SignUpController extends ChangeNotifier {
   final fireStore = FirebaseFirestore.instance;
   final _auth = FirebaseAuth.instance;
   final nameController = TextEditingController();

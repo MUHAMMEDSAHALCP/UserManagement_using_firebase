@@ -2,17 +2,17 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:user_management/components/material_button.dart';
 import 'package:user_management/components/text_form_field.dart';
-import 'package:user_management/controller/registration_controller.dart';
+import 'package:user_management/controller/signup_controller.dart';
 import 'package:user_management/utlities/constant.dart';
 
-class RegisterPage extends StatelessWidget {
-  static String id = "Register_Page";
+class SignUpPage extends StatelessWidget {
+  static String id = "signUp-view";
 
-  const RegisterPage({Key? key}) : super(key: key);
+  const SignUpPage({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    final registerController = context.read<RegisterController>();
+    final registerController = context.read<SignUpController>();
 
     return Scaffold(
       backgroundColor: blackColor,
@@ -55,7 +55,7 @@ class RegisterPage extends StatelessWidget {
                   onClick: () {
                     registerController.registerUser(context);
                   },
-                  text: "Register")
+                  text: "Signup")
             ],
           ),
         ),
