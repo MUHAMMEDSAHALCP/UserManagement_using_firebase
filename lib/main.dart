@@ -1,9 +1,11 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:user_management/controller/edit_controller.dart';
 import 'package:user_management/controller/home_controller.dart';
 import 'package:user_management/controller/login_controller.dart';
 import 'package:user_management/controller/signup_controller.dart';
+import 'package:user_management/view/edit_view.dart';
 import 'package:user_management/view/home_view.dart';
 import 'package:user_management/view/login_view.dart';
 import 'package:user_management/view/signup_view.dart';
@@ -31,6 +33,9 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(
           create: (context) => LogInController(),
         ),
+        ChangeNotifierProvider(
+          create: (context) => EditController(),
+        ),
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
@@ -40,6 +45,7 @@ class MyApp extends StatelessWidget {
           LoginPage.id: (context) => const LoginPage(),
           SignUpPage.id: (context) => const SignUpPage(),
           HomePage.id: (context) => const HomePage(),
+          EditPage.id: (context) => const EditPage(),
         },
       ),
     );

@@ -3,12 +3,16 @@ class UserModel {
   String? email;
   String? phone;
   String? id;
+  String? age;
+  String? image;
 
   UserModel({
     this.name,
     this.email,
     this.phone,
     this.id,
+    this.age,
+    this.image,
   });
 
 //getting data from firestore
@@ -17,7 +21,9 @@ class UserModel {
       name: json["name"],
       email: json["email"],
       phone: json["phone"],
-      id: json["id"],
+      id: json["uid"],
+      age: json["age"],
+      image: json["image"],
     );
   }
 
@@ -27,6 +33,7 @@ class UserModel {
       "name": name,
       "email": email,
       "phone": phone,
+      "age": age,
     };
   }
 }

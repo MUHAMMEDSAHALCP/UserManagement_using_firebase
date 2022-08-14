@@ -26,7 +26,10 @@ class WelComePage extends StatelessWidget {
             MaterialButtonWidget(
               text: "Login",
               onClick: () {
-                Navigator.pushNamed(context, LoginPage.id);
+                Navigator.pushNamed(
+                  context,
+                  LoginPage.id,
+                );
               },
             ),
             sizedBox10,
