@@ -4,6 +4,7 @@ import 'package:user_management/components/material_button.dart';
 import 'package:user_management/components/text_form_field.dart';
 import 'package:user_management/controller/login_controller.dart';
 import 'package:user_management/utlities/constant.dart';
+import 'package:user_management/view/signup_view.dart';
 
 class LoginPage extends StatelessWidget {
   static String id = "Login_Page";
@@ -23,20 +24,20 @@ class LoginPage extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.end,
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              const Center(
+              Center(
                 child: Text(
-                  "Login",
-                  style: textStyle,
+                  "Login To Your Account",
+                  style: textStyle.copyWith(fontSize: 25),
                 ),
               ),
-              sizedBox20,
+              sizedBoxHeight50,
               TextFormFieldWidget(
-                text: "Enter email",
+                text: "Enter your email",
                 controller: logInController.emailController,
               ),
-              sizedBox10,
+              sizedBoxHeight20,
               TextFormFieldWidget(
-                text: "Enter Password",
+                text: "Enter your Password",
                 controller: logInController.passWordController,
               ),
               TextButton(
@@ -49,11 +50,35 @@ class LoginPage extends StatelessWidget {
                 ),
               ),
               MaterialButtonWidget(
-                onClick: () {
-                  logInController.logInUser(context);
+                onClick: () async {
+                  final errorMessage = await logInController.logInUser(context);
+                  // ignore: use_build_context_synchronously
+                  logInController.checkFormField(context, errorMessage);
                 },
                 text: "Login",
-              )
+              ),
+              sizedBoxHeight20,
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  const Text(
+                    "Don't have account yet?",
+                    style: TextStyle(color: whiteColor),
+                  ),
+                  TextButton(
+                    onPressed: () {
+                      Navigator.pushNamed(
+                        context,
+                        SignUpPage.id,
+                      );
+                    },
+                    child: Text(
+                      "Create",
+                      style: textStyle.copyWith(fontSize: 18),
+                    ),
+                  )
+                ],
+              ),
             ],
           ),
         ),
