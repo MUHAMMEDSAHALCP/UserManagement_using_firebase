@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:user_management/components/material_button.dart';
@@ -5,23 +6,26 @@ import 'package:user_management/components/text_form_field.dart';
 import 'package:user_management/controller/edit_controller.dart';
 import 'package:user_management/controller/login_controller.dart';
 import 'package:user_management/utlities/constant.dart';
-import 'package:user_management/view/home_view.dart';
 
+// ignore: must_be_immutable
 class EditPage extends StatelessWidget {
   static String id = "Edit_page";
-  const EditPage({Key? key}) : super(key: key);
+  EditPage({Key? key}) : super(key: key);
+
+  final formKey = GlobalKey<FormState>();
+
   @override
   Widget build(BuildContext context) {
     final editController = context.read<EditController>();
     final logInController = context.read<LogInController>();
+    final pickImageController = context.read<PickImageController>();
     editController.ageController.text =
-        logInController.loggedUserModel.age == null
-            ? ""
-            : logInController.loggedUserModel.age.toString();
-    editController.nameController.text =
-        logInController.loggedUserModel.name.toString();
+        logInController.loggedUserModel.age != null
+            ? logInController.loggedUserModel.age.toString()
+            : "";
+    editController.nameController.text = logInController.loggedUserModel.name!;
     editController.emailController.text =
-        logInController.loggedUserModel.email.toString();
+        logInController.loggedUserModel.email!;
     editController.phoneNumberController.text =
         logInController.loggedUserModel.phone!;
     return Scaffold(
@@ -42,48 +46,84 @@ class EditPage extends StatelessWidget {
         ),
         body: Padding(
           padding: const EdgeInsets.all(10.0),
-          child: ListView(
-            physics: const BouncingScrollPhysics(),
-            children: [
-              const Center(
-                child: CircleAvatar(
-                  radius: 80,
+          child: Form(
+            autovalidateMode: AutovalidateMode.always,
+            key: formKey,
+            child: ListView(
+              physics: const BouncingScrollPhysics(),
+              children: [
+                Center(
+                  child: GestureDetector(
+                    onTap: () {
+                      pickImageController.getImageFromGallery();
+                    },
+                    child: context
+                            .watch<PickImageController>()
+                            .newImage
+                            .isNotEmpty
+                        ? CircleAvatar(
+                            radius: 80,
+                            backgroundImage: MemoryImage(
+                              const Base64Decoder().convert(
+                                context.watch<PickImageController>().newImage,
+                              ),
+                            ),
+                          )
+                        : const CircleAvatar(
+                            radius: 80,
+                            backgroundImage: NetworkImage(
+                                "https://spng.subpng.com/20201110/kku/transparent-user-icon-people-icon-man-icon-5faae2fa89f329.0070624216050347465651.jpg"),
+                          ),
+                  ),
                 ),
-              ),
-              sizedBox20,
-              TextFormFieldWidget(
-                text: "Name",
-                controller: editController.nameController,
-              ),
-              sizedBox10,
-              TextFormFieldWidget(
-                text: "Email",
-                controller: editController.emailController,
-                enable: false,
-              ),
-              sizedBox10,
-              TextFormFieldWidget(
-                text: "Age",
-                controller: editController.ageController,
-              ),
-              sizedBox20,
-              TextFormFieldWidget(
-                text: "Phone",
-                controller: editController.phoneNumberController,
-              ),
-              sizedBox20,
-              MaterialButtonWidget(
-                onClick: () {
-                  editController.saveAllEditUserDetails(context);
-                  logInController.getAllUserDetails(context);
-                  Navigator.popAndPushNamed(
-                    context,
-                    HomePage.id,
-                  );
-                },
-                text: "save",
-              )
-            ],
+                sizedBoxHeight20,
+                TextFormFieldWidget(
+                  text: "Name",
+                  controller: editController.nameController,
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return 'Enter your Name';
+                    } else {
+                      return null;
+                    }
+                  },
+                ),
+                sizedBoxHeight20,
+                TextFormFieldWidget(
+                  text: "Email",
+                  controller: editController.emailController,
+                  enable: false,
+                ),
+                sizedBoxHeight10,
+                TextFormFieldWidget(
+                  text: "Age",
+                  controller: editController.ageController,
+                ),
+                sizedBoxHeight20,
+                TextFormFieldWidget(
+                  text: "Phone",
+                  controller: editController.phoneNumberController,
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return 'Enter your phone';
+                    } else {
+                      return null;
+                    }
+                  },
+                ),
+                sizedBoxHeight20,
+                MaterialButtonWidget(
+                  onClick: () {
+                    if (formKey.currentState!.validate()) {
+                      editController.saveAllEditUserDetails(
+                          context, pickImageController.newImage);
+                      logInController.getAllUserDetails(context);
+                    }
+                  },
+                  text: "save",
+                ),
+              ],
+            ),
           ),
         ),
       ),
