@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:user_management/components/material_button.dart';
@@ -12,6 +14,7 @@ class HomePage extends StatelessWidget {
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
     return Scaffold(
+      backgroundColor: buttonColor,
       appBar: AppBar(
         elevation: 0,
         title: const Text("  USER DETAILS"),
@@ -22,21 +25,38 @@ class HomePage extends StatelessWidget {
       body: ListView(
         physics: const BouncingScrollPhysics(),
         children: [
-          sizedBox20,
-          const Center(
-            child: CircleAvatar(
-              radius: 80,
+          sizedBoxHeight20,
+          Center(
+            child: Consumer<LogInController>(
+              builder: (context, value, child) {
+                return value.loggedUserModel.image == "" ||
+                        value.loggedUserModel.image == null
+                    ? const CircleAvatar(
+                        radius: 80,
+                        backgroundImage: NetworkImage(
+                            "https://spng.subpng.com/20201110/kku/transparent-user-icon-people-icon-man-icon-5faae2fa89f329.0070624216050347465651.jpg"),
+                      )
+                    : CircleAvatar(
+                        radius: 80,
+                        backgroundImage: MemoryImage(
+                          const Base64Decoder().convert(
+                            value.loggedUserModel.image.toString(),
+                          ),
+                        ),
+                      );
+              },
             ),
           ),
-          sizedBox20,
+          sizedBoxHeight20,
           Padding(
             padding: const EdgeInsets.all(10.0),
             child: Container(
-              decoration: boxDecoration.copyWith(color: blackColor),
-              height: size.height / 2,
+              decoration: boxDecoration.copyWith(
+                  color: blackColor, borderRadius: BorderRadius.circular(30)),
+              height: size.height / 2.3,
               width: double.infinity,
               child: Padding(
-                padding: const EdgeInsets.all(10.0),
+                padding: const EdgeInsets.all(20.0),
                 child: Consumer<LogInController>(
                   builder: (context, value, child) => Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -45,37 +65,34 @@ class HomePage extends StatelessWidget {
                         "Name    :  ${value.loggedUserModel.name}",
                         style: textStyle,
                       ),
-                      sizedBox20,
+                      sizedBoxHeight20,
                       Text(
                         "Email    :  ${value.loggedUserModel.email}",
                         style: textStyle,
                       ),
-                      sizedBox20,
-                      value.loggedUserModel.age == null
-                          ? Visibility(
-                              visible: false,
-                              child: Text(
-                                "Age      :   ${value.loggedUserModel.age}",
-                                style: textStyle,
-                              ),
-                            )
-                          : Text(
-                              "Age       :   ${value.loggedUserModel.age}",
+                      value.loggedUserModel.age != null
+                          ? sizedBoxHeight20
+                          : const SizedBox(),
+                      value.loggedUserModel.age != null
+                          ? Text(
+                              "Age      :   ${value.loggedUserModel.age}",
                               style: textStyle,
-                            ),
-                      sizedBox20,
+                            )
+                          : const Text("Age didn't specified yet"),
+                      value.loggedUserModel.age != null
+                          ? sizedBoxHeight20
+                          : const SizedBox(),
                       Text(
                         "Phone   :  ${value.loggedUserModel.phone}",
                         style: textStyle,
                       ),
-                      SizedBox(
-                        height: size.height / 5,
-                      ),
+                      sizedBoxHeight50,
+                      sizedBoxHeight50,
                       MaterialButtonWidget(
                           onClick: () {
                             Navigator.pushNamed(context, EditPage.id);
                           },
-                          text: "Edit Profile")
+                          text: "Edit Profile"),
                     ],
                   ),
                 ),
