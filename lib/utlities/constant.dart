@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 //colors
 const blackColor = Colors.black;
 const whiteColor = Colors.white;
+const buttonColor = Color(0xffD4E3E6);
 
 //styles
 
@@ -12,11 +13,14 @@ const textStyle = TextStyle(
   fontWeight: FontWeight.bold,
 );
 
-const sizedBox20 = SizedBox(
+const sizedBoxHeight20 = SizedBox(
   height: 20,
 );
-const sizedBox10 = SizedBox(
+const sizedBoxHeight10 = SizedBox(
   height: 10,
+);
+const sizedBoxHeight50 = SizedBox(
+  height: 50,
 );
 
 final boxDecoration = BoxDecoration(

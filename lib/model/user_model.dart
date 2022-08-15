@@ -34,6 +34,7 @@ class UserModel {
       "email": email,
       "phone": phone,
       "age": age,
+      "image": image,
     };
   }
 }

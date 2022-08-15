@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:user_management/utlities/constant.dart';
 
 class MaterialButtonWidget extends StatelessWidget {
   final Function() onClick;
@@ -13,6 +14,7 @@ class MaterialButtonWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Material(
+      color: buttonColor,
       elevation: 5,
       borderRadius: BorderRadius.circular(10),
       child: MaterialButton(

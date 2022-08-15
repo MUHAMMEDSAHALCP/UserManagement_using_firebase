@@ -1,10 +1,15 @@
+import 'dart:convert';
+import 'dart:io';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:user_management/model/user_model.dart';
 import 'package:user_management/view/login_view.dart';
 
 class EditController extends ChangeNotifier {
+  UserModel loggedUserModel = UserModel();
+
   final nameController = TextEditingController();
   final emailController = TextEditingController();
   final phoneNumberController = TextEditingController();
@@ -12,22 +17,37 @@ class EditController extends ChangeNotifier {
   UserModel userModel = UserModel();
   final auth = FirebaseAuth.instance;
 
-  Future saveAllEditUserDetails(context) async {
+// saving all data to firestore
+
+  Future saveAllEditUserDetails(context, String newImage) async {
     final fireStore = FirebaseFirestore.instance;
     final auth = FirebaseAuth.instance;
     User? user = auth.currentUser;
-    userModel.name = nameController.text;
-    userModel.email = user!.email;
-    userModel.age = ageController.text;
-    userModel.phone = phoneNumberController.text;
+    userModel.name = nameController.text.trim();
+    userModel.email = user!.email!.trim();
+    userModel.age =
+        ageController.text.trim().isEmpty ? null : ageController.text.trim();
+    userModel.phone = phoneNumberController.text.trim();
     userModel.id = user.uid;
+    userModel.image = newImage.isEmpty ? null : newImage;
     fireStore.collection('users').doc(user.uid).update(
           userModel.toJson(),
         );
   }
-
   logOut(context) {
     auth.signOut();
     Navigator.pushNamedAndRemoveUntil(context, LoginPage.id, (route) => false);
+  }
+}
+
+// fetching image
+class PickImageController extends ChangeNotifier {
+  String newImage = "";
+  getImageFromGallery() async {
+    XFile? pickedFile =
+        await ImagePicker().pickImage(source: ImageSource.camera);
+    final bytes = File(pickedFile!.path).readAsBytesSync();
+    newImage = base64Encode(bytes);
+    notifyListeners();
   }
 }

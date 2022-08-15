@@ -5,11 +5,12 @@ import 'package:user_management/controller/edit_controller.dart';
 import 'package:user_management/controller/home_controller.dart';
 import 'package:user_management/controller/login_controller.dart';
 import 'package:user_management/controller/signup_controller.dart';
+import 'package:user_management/controller/splash_controller.dart';
 import 'package:user_management/view/edit_view.dart';
 import 'package:user_management/view/home_view.dart';
 import 'package:user_management/view/login_view.dart';
 import 'package:user_management/view/signup_view.dart';
-import 'package:user_management/view/welcome_view.dart';
+import 'package:user_management/view/splash_view.dart';
 
 void main(List<String> args) async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -25,7 +26,7 @@ class MyApp extends StatelessWidget {
     return MultiProvider(
       providers: [
         ChangeNotifierProvider(
-          create: (context) => SignUpController(),
+          create: (context) => SplashController(context),
         ),
         ChangeNotifierProvider(
           create: (context) => HomePageController(),
@@ -34,18 +35,24 @@ class MyApp extends StatelessWidget {
           create: (context) => LogInController(),
         ),
         ChangeNotifierProvider(
+          create: (context) => SignUpController(),
+        ),
+        ChangeNotifierProvider(
           create: (context) => EditController(),
+        ),
+        ChangeNotifierProvider(
+          create: (context) => PickImageController(),
         ),
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
-        initialRoute: WelComePage.id,
+        initialRoute: SplashScreen.id,
         routes: {
-          WelComePage.id: (context) => const WelComePage(),
+          SplashScreen.id: (context) => const SplashScreen(),
           LoginPage.id: (context) => const LoginPage(),
           SignUpPage.id: (context) => const SignUpPage(),
           HomePage.id: (context) => const HomePage(),
-          EditPage.id: (context) => const EditPage(),
+          EditPage.id: (context) => EditPage(),
         },
       ),
     );

@@ -1,33 +1,44 @@
 import 'dart:developer';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
+import 'package:user_management/components/snackbar.dart';
 import 'package:user_management/model/user_model.dart';
 import 'package:user_management/view/home_view.dart';
 
 class LogInController extends ChangeNotifier {
   final fireStore = FirebaseFirestore.instance;
   final _auth = FirebaseAuth.instance;
-  final nameController = TextEditingController();
+  Stream<User?> stream() => _auth.authStateChanges();
   final emailController = TextEditingController();
-  final phoneNumberController = TextEditingController();
   final passWordController = TextEditingController();
   UserModel loggedUserModel = UserModel();
 
-  logInUser(context) async {
+  Future<String> logInUser(context) async {
     try {
-      _auth
+      await _auth
           .signInWithEmailAndPassword(
               email: emailController.text, password: passWordController.text)
           .then(
             (value) => getAllUserDetails(context),
           );
-    } catch (e) {
+      return Future.value("");
+    } on FirebaseAuthException catch (e) {
       log(" Error: $e");
+      return Future.value(e.message);
     }
   }
 
-  // getting User model from firestore
+  checkFormField(BuildContext context, errorMessage) async {
+    if (errorMessage != "") {
+      ScaffoldMessenger.of(context).hideCurrentSnackBar();
+      SnackBarWidget.chekFormFill(context, errorMessage);
+    } else {
+      return;
+    }
+  }
+
+  // getting User data from firestore
   getAllUserDetails(context) async {
     User? user = _auth.currentUser;
     fireStore.collection('users').doc(user!.uid).get().then(
@@ -36,10 +47,7 @@ class LogInController extends ChangeNotifier {
         log("$loggedUserModel");
         notifyListeners();
         Navigator.pushNamedAndRemoveUntil(
-          context,
-          HomePage.id,
-          (route) => false,
-        );
+            context, HomePage.id, (route) => false);
       },
     );
   }
