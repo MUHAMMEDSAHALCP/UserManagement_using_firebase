@@ -10,14 +10,20 @@ class SplashScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     SplashController(context);
-    return Scaffold(
-      body: Column(
-        children: const [
-          Text(
-            "USER MANAGEMENT",
-            style: textStyle,
-          ),
-        ],
+    return SafeArea(
+      child: Scaffold(
+        backgroundColor: blackColor,
+        body: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: const [
+            Center(
+              child: Text(
+                "WELCOME BACK",
+                style: textStyle,
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }
