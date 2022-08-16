@@ -4,12 +4,14 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:provider/provider.dart';
+import 'package:user_management/controller/login_controller.dart';
 import 'package:user_management/model/user_model.dart';
 import 'package:user_management/view/login_view.dart';
 
 class EditController extends ChangeNotifier {
   UserModel loggedUserModel = UserModel();
-
+  final formKey = GlobalKey<FormState>();
   final nameController = TextEditingController();
   final emailController = TextEditingController();
   final phoneNumberController = TextEditingController();
@@ -34,6 +36,15 @@ class EditController extends ChangeNotifier {
           userModel.toJson(),
         );
   }
+
+  validateForm(BuildContext context) {
+    if (formKey.currentState!.validate()) {
+      saveAllEditUserDetails(
+          context, context.read<PickImageController>().newImage);
+      context.read<LogInController>().getAllUserDetails(context);
+    }
+  }
+
   logOut(context) {
     auth.signOut();
     Navigator.pushNamedAndRemoveUntil(context, LoginPage.id, (route) => false);

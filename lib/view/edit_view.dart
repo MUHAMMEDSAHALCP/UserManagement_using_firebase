@@ -10,9 +10,7 @@ import 'package:user_management/utlities/constant.dart';
 // ignore: must_be_immutable
 class EditPage extends StatelessWidget {
   static String id = "Edit_page";
-  EditPage({Key? key}) : super(key: key);
-
-  final formKey = GlobalKey<FormState>();
+  const EditPage({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -48,7 +46,7 @@ class EditPage extends StatelessWidget {
           padding: const EdgeInsets.all(10.0),
           child: Form(
             autovalidateMode: AutovalidateMode.always,
-            key: formKey,
+            key: context.read<EditController>().formKey,
             child: ListView(
               physics: const BouncingScrollPhysics(),
               children: [
@@ -114,11 +112,7 @@ class EditPage extends StatelessWidget {
                 sizedBoxHeight20,
                 MaterialButtonWidget(
                   onClick: () {
-                    if (formKey.currentState!.validate()) {
-                      editController.saveAllEditUserDetails(
-                          context, pickImageController.newImage);
-                      logInController.getAllUserDetails(context);
-                    }
+                    editController.validateForm(context);
                   },
                   text: "save",
                 ),

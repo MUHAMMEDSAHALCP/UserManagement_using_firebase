@@ -13,73 +13,85 @@ class LoginPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final logInController = context.read<LogInController>();
-
     return Scaffold(
       backgroundColor: blackColor,
       body: SafeArea(
         child: Padding(
-          padding: const EdgeInsets.all(10.0),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.end,
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Center(
-                child: Text(
-                  "Login To Your Account",
-                  style: textStyle.copyWith(fontSize: 25),
-                ),
-              ),
-              sizedBoxHeight50,
-              TextFormFieldWidget(
-                text: "Enter your email",
-                controller: logInController.emailController,
-              ),
-              sizedBoxHeight20,
-              TextFormFieldWidget(
-                text: "Enter your Password",
-                controller: logInController.passWordController,
-              ),
-              TextButton(
-                onPressed: () {},
-                child: const Text(
-                  "Forgot password?",
-                  style: TextStyle(
-                    color: whiteColor,
+          padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
+          child: Form(
+            key: context.read<LogInController>().formKey,
+            child: ListView(
+              children: [
+                Center(
+                  child: Text(
+                    "Login To Your Account",
+                    style: textStyle.copyWith(fontSize: 25),
                   ),
                 ),
-              ),
-              MaterialButtonWidget(
-                onClick: () async {
-                  final errorMessage = await logInController.logInUser(context);
-                  // ignore: use_build_context_synchronously
-                  logInController.checkFormField(context, errorMessage);
-                },
-                text: "Login",
-              ),
-              sizedBoxHeight20,
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  const Text(
-                    "Don't have account yet?",
-                    style: TextStyle(color: whiteColor),
-                  ),
-                  TextButton(
-                    onPressed: () {
-                      Navigator.pushNamed(
-                        context,
-                        SignUpPage.id,
-                      );
-                    },
-                    child: Text(
-                      "Create",
-                      style: textStyle.copyWith(fontSize: 18),
+                sizedBoxHeight50,
+                TextFormFieldWidget(
+                  text: "Email",
+                  controller: context.read<LogInController>().emailController,
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return "Enter your name";
+                    } else {
+                      return null;
+                    }
+                  },
+                ),
+                sizedBoxHeight20,
+                TextFormFieldWidget(
+                  text: "Name",
+                  controller:
+                      context.read<LogInController>().passWordController,
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return "Enter your password";
+                    } else {
+                      return null;
+                    }
+                  },
+                ),
+                TextButton(
+                  onPressed: () {},
+                  child: const Text(
+                    "Forgot password?",
+                    style: TextStyle(
+                      color: whiteColor,
                     ),
-                  )
-                ],
-              ),
-            ],
+                  ),
+                ),
+                MaterialButtonWidget(
+                  onClick: () {
+                    context.read<LogInController>().validateForm(context);
+                  },
+                  text: "Login",
+                ),
+                sizedBoxHeight20,
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    const Text(
+                      "Don't have account yet?",
+                      style: TextStyle(color: whiteColor),
+                    ),
+                    TextButton(
+                      onPressed: () {
+                        Navigator.pushNamed(
+                          context,
+                          SignUpPage.id,
+                        );
+                      },
+                      child: Text(
+                        "Create",
+                        style: textStyle.copyWith(fontSize: 18),
+                      ),
+                    )
+                  ],
+                ),
+              ],
+            ),
           ),
         ),
       ),

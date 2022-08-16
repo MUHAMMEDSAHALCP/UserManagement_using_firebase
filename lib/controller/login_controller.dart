@@ -9,11 +9,11 @@ import 'package:user_management/view/home_view.dart';
 class LogInController extends ChangeNotifier {
   final fireStore = FirebaseFirestore.instance;
   final _auth = FirebaseAuth.instance;
+  final formKey = GlobalKey<FormState>();
   Stream<User?> stream() => _auth.authStateChanges();
   final emailController = TextEditingController();
   final passWordController = TextEditingController();
   UserModel loggedUserModel = UserModel();
-
   Future<String> logInUser(context) async {
     try {
       await _auth
@@ -35,6 +35,14 @@ class LogInController extends ChangeNotifier {
       SnackBarWidget.chekFormFill(context, errorMessage);
     } else {
       return;
+    }
+  }
+
+  validateForm(BuildContext context) async {
+    if (formKey.currentState!.validate()) {
+      final errorMessage = await logInUser(context);
+      // ignore: use_build_context_synchronously
+      checkFormField(context, errorMessage);
     }
   }
 

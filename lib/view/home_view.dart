@@ -1,5 +1,4 @@
 import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:user_management/components/material_button.dart';
@@ -53,7 +52,7 @@ class HomePage extends StatelessWidget {
             child: Container(
               decoration: boxDecoration.copyWith(
                   color: blackColor, borderRadius: BorderRadius.circular(30)),
-              height: size.height / 2.3,
+              height: size.height / 1.9,
               width: double.infinity,
               child: Padding(
                 padding: const EdgeInsets.all(20.0),
